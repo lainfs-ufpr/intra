@@ -6,7 +6,11 @@ trimagemServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     
     trimmed_paths <- reactiveVal(NULL)
-    last_log <- reactiveVal("Pronto.")
+    log_path      <- reactiveVal(NULL)
+    
+    append_log <- function(path, msg) {
+      cat(msg, "\n", file = path, append = TRUE)
+    }
     
     observeEvent(input$run, {
       req(input$r1)
@@ -18,11 +22,14 @@ trimagemServer <- function(id) {
       outdir <- file.path(tempdir(), paste0("trim_", format(Sys.time(), "%Y%m%d_%H%M%S")))
       dir.create(outdir, recursive = TRUE, showWarnings = FALSE)
       
+      log_file <- file.path(outdir, paste0("trimmomatic_log_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".txt"))
+      log_path(log_file)
+      cat("", file = log_file) # cria o arquivo vazio
+      
       trimmomatic_jar <- input$trimmomatic_jar$datapath
       
-      
       if (is.null(trimmomatic_jar) || !file.exists(trimmomatic_jar)) {
-        last_log("Arquivo JAR do Trimmomatic não encontrado.")
+        append_log(log_file, "Arquivo JAR do Trimmomatic não encontrado.")
         return()
       }
       
@@ -48,14 +55,14 @@ trimagemServer <- function(id) {
                   shQuote(r1_path), shQuote(out_se),
                   illum_clip, leading, trailing, sw, minlen)
         
-        last_log("Executando Trimmomatic (Single-end)...")
+        append_log(log_file, "Executando Trimmomatic (Single-end)...")
         flush.console()
         res <- tryCatch({
           out <- system2("java", args = args, stdout = TRUE, stderr = TRUE)
-          last_log(paste(out, collapse = "\n"))
+          append_log(log_file, paste(out, collapse = "\n"))
           TRUE
         }, error = function(e) {
-          last_log(paste("Erro ao executar Trimmomatic:", e$message))
+          append_log(log_file, paste("Erro ao executar Trimmomatic:", e$message))
           FALSE
         })
         
@@ -92,14 +99,14 @@ trimagemServer <- function(id) {
                   shQuote(r2_paired), shQuote(r2_unpaired),
                   illum_clip, leading, trailing, sw, minlen)
         
-        last_log("Executando Trimmomatic (Paired-end)...")
+        append_log(log_file, "Executando Trimmomatic (Paired-end)...")
         flush.console()
         res <- tryCatch({
           out <- system2("java", args = args, stdout = TRUE, stderr = TRUE)
-          last_log(paste(out, collapse = "\n"))
+          append_log(log_file, paste(out, collapse = "\n"))
           TRUE
         }, error = function(e) {
-          last_log(paste("Erro ao executar Trimmomatic:", e$message))
+          append_log(log_file, paste("Erro ao executar Trimmomatic:", e$message))
           FALSE
         })
         
@@ -130,33 +137,58 @@ trimagemServer <- function(id) {
       # Estatísticas e plot
       output$stats_table <- renderTable({ stats }, digits = 0)
       
-      output$qual_plot <- renderPlot({
+      output$qual_plot_ui <- renderUI({
         req(stats)
-        fq_raw <- readFastq(r1_path)
+        fq_raw  <- readFastq(r1_path)
         fq_trim <- if (mode == "SE") readFastq(trimmed_paths()$single_trimmed) else readFastq(trimmed_paths()$r1_paired)
         
-        mean_quality_by_cycle <- function(fq) {
-          if (length(fq) == 0) return(NULL)
-          Q <- as(quality(fq), "matrix")
-          data.frame(pos = seq_len(ncol(Q)), meanQ = colMeans(Q, na.rm = TRUE))
+        if (length(fq_trim) == 0) {
+          div(
+            style = paste(
+              "background:#fff3cd; color:#856404; border:1px solid #ffc107;",
+              "border-radius:6px; padding:14px 18px; margin-top:8px;"
+            ),
+            icon("triangle-exclamation"),
+            strong(" Nenhuma read sobreviveu à trimagem."),
+            p("Todos os reads foram removidos com os parâmetros atuais. 
+              Tente reduzir os valores de LEADING, TRAILING, CUTOFF ou MINLEN.",
+              style = "margin:6px 0 0 0;")
+          )
+        } else {
+          mean_quality_by_cycle <- function(fq) {
+            Q <- as(quality(fq), "matrix")
+            data.frame(pos = seq_len(ncol(Q)), meanQ = colMeans(Q, na.rm = TRUE))
+          }
+          
+          mq_raw  <- mean_quality_by_cycle(fq_raw)
+          mq_trim <- mean_quality_by_cycle(fq_trim)
+          
+          output$qual_plot_render <- renderPlot({
+            ggplot() +
+              geom_line(data = mq_raw,  aes(x = pos, y = meanQ), color = "blue", linetype = "dashed") +
+              geom_line(data = mq_trim, aes(x = pos, y = meanQ), color = "red") +
+              theme_minimal() +
+              labs(x = "Ciclo", y = "Qualidade média",
+                   title = paste("Qualidade média (", mode, ")")) +
+              scale_x_continuous(expand = c(0, 0))
+          })
+          
+          plotOutput(session$ns("qual_plot_render"), height = "360px")
         }
-        
-        mq_raw <- mean_quality_by_cycle(fq_raw)
-        mq_trim <- mean_quality_by_cycle(fq_trim)
-        
-        ggplot() +
-          geom_line(data = mq_raw, aes(x = pos, y = meanQ), color = "blue", linetype = "dashed") +
-          geom_line(data = mq_trim, aes(x = pos, y = meanQ), color = "red") +
-          theme_minimal() +
-          labs(x = "Ciclo", y = "Qualidade média", 
-               title = paste("Qualidade média (", mode, ")")) +
-          scale_x_continuous(expand = c(0,0))
       })
       
-      last_log(paste(last_log(), "\nTrimagem finalizada. Arquivos em:", outdir))
+      append_log(log_file, paste("\nTrimagem finalizada. Arquivos em:", outdir))
     })
     
-    output$log <- renderText({ last_log() })
+    output$download_log_ui <- renderUI({
+      req(log_path())
+      downloadButton(session$ns("download_log"), "Download log (.txt)", class = "btn-trim-download")
+    })
+    
+    output$download_log <- downloadHandler(
+      filename = function() basename(log_path()),
+      content  = function(file) file.copy(log_path(), file)
+    )
     
     output$download_r1_paired <- downloadHandler(
       filename = function() basename(trimmed_paths()$r1_paired),

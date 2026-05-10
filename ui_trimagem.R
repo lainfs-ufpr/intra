@@ -45,15 +45,29 @@ trimagemUI <- function(id) {
             "Arquivo Trimmomatic (.jar)",
             accept = ".jar"
           )),
-
-      selectInput(ns("adapter_choice"), "Escolher adaptador:",
-                  choices = c("TruSeq3-PE" = "TruSeq3-PE.fa",
-                              "TruSeq3-SE" = "TruSeq3-SE.fa",
-                              "TruSeq2-PE" = "TruSeq2-PE.fa",
-                              "TruSeq2-SE" = "TruSeq2-SE.fa",
-                              "NexteraPE"  = "NexteraPE-PE.fa",
-                              "Custom (inserir manualmente)" = "custom"),
-                  selected = "TruSeq3-PE.fa"),
+      
+      # Adaptadores filtrados por modo SE
+      conditionalPanel(
+        condition = "input.mode == 'SE'",
+        ns = ns,
+        selectInput(ns("adapter_choice"), "Escolher adaptador:",
+                    choices = c("TruSeq3-SE" = "TruSeq3-SE.fa",
+                                "TruSeq2-SE" = "TruSeq2-SE.fa",
+                                "Custom (inserir manualmente)" = "custom"),
+                    selected = "TruSeq3-SE.fa")
+      ),
+      
+      # Adaptadores filtrados por modo PE
+      conditionalPanel(
+        condition = "input.mode == 'PE'",
+        ns = ns,
+        selectInput(ns("adapter_choice"), "Escolher adaptador:",
+                    choices = c("TruSeq3-PE" = "TruSeq3-PE.fa",
+                                "TruSeq2-PE" = "TruSeq2-PE.fa",
+                                "NexteraPE"  = "NexteraPE-PE.fa",
+                                "Custom (inserir manualmente)" = "custom"),
+                    selected = "TruSeq3-PE.fa")
+      ),
       
       conditionalPanel(
         condition = "input.adapter_choice == 'custom'", 
@@ -92,7 +106,7 @@ trimagemUI <- function(id) {
                 value = 20, min = 2
               )
           ),
-              
+          
           numericInput(
             ns("minlen"),
             label = tagList(
@@ -122,7 +136,7 @@ trimagemUI <- function(id) {
                 ),
                 value = 3, min = 0
               ),
-
+              
               numericInput(
                 ns("trailing"),
                 label = tagList(
@@ -140,15 +154,46 @@ trimagemUI <- function(id) {
           )
       ),
       
-      actionButton(ns("run"), "Rodar Trimmomatic", class = "btnQA-custom"), 
+      # Botão com spinner de carregamento
+      div(
+        style = "position: relative;",
+        actionButton(
+          ns("run"),
+          label = tagList(
+            tags$span(
+              id = ns("run_spinner"),
+              class = "spinner-border spinner-border-sm me-2",
+              role = "status",
+              style = "display:none; vertical-align:middle;"
+            ),
+            "Rodar Trimmomatic"
+          ),
+          class = "btnQA-custom"
+        ),
+        tags$script(HTML(paste0("
+          $(document).on('shiny:inputchanged', function(e) {
+            if (e.name === '", ns("run"), "') {
+              $('#", ns("run_spinner"), "').show();
+              $('#", ns("run"), "').prop('disabled', true);
+            }
+          });
+          $(document).on('shiny:value shiny:error', function(e) {
+            if (e.name === '", ns("stats_table"), "') {
+              $('#", ns("run_spinner"), "').hide();
+              $('#", ns("run"), "').prop('disabled', false);
+            }
+          });
+        ")))
+      ),
       hr(),
+      uiOutput(ns("download_log_ui")),
       
       conditionalPanel(
         condition = "input.mode == 'PE'",
         ns = ns,
         downloadButton(ns("download_r1_paired"), 
-                        "Download R1_paired",
-                        class = "btn-trim-download"),
+                       "Download R1_paired",
+                       class = "btn-trim-download"),
         downloadButton(ns("download_r2_paired"), 
                        "Download R2_paired",
                        class = "btn-trim-download") 
@@ -158,19 +203,18 @@ trimagemUI <- function(id) {
         condition = "input.mode == 'SE'",
         ns = ns,
         downloadButton(ns("download_single_trimmed"), 
-                        "Download SE_trimmed", 
-                        class = "btn-trim-download")
-        )
+                       "Download SE_trimmed", 
+                       class = "btn-trim-download")
+      )
     ),
     
     mainPanel(
       div(class = "trim-main-panel",
-          verbatimTextOutput(ns("log")),
           h4("Estatísticas (antes x depois)"),
           tableOutput(ns("stats_table")), 
           h4("Plot: qualidade média por ciclo (R1)"),
-          plotOutput(ns("qual_plot"), height = "360px") 
-        )
+          uiOutput(ns("qual_plot_ui"))
       )
     )
+  )
 }
