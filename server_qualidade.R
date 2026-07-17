@@ -1,6 +1,9 @@
 library(shinyjs)
 library(shinyWidgets)
 
+# Tamanho máximo de input
+options(shiny.maxRequestSize = 100 * 1024^3)
+
 qualidadeServer <- function(id, r_dir_path, r_resultado_qa) {
 
   moduleServer(id, function(input, output, session) {

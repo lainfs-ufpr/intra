@@ -2,6 +2,9 @@ library(ShortRead)
 library(ggplot2)
 library(dplyr)
 
+# Tamanho máximo de input
+options(shiny.maxRequestSize = 100 * 1024^3)
+
 trimagemServer <- function(id) {
   moduleServer(id, function(input, output, session) {
     
