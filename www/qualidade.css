@@ -1,25 +1,25 @@
 /* Modo claro */
 [data-bs-theme="light"] {
   --bg-color: #ffffff;
-  --sidebar-bg: #940e01;
+  --sidebar-bg: #865f46;
   --sidebar-text-color: #ffffff; 
   --accent-color: #0e432f;
   --btn-text-color: #ffffff;
   --hover-bg: #1a754f;
-  --text-color: #31231a;
+  --text-color: #1d1b26;
   --plot-title-color: #0e432f; 
 }
 
 /* Modo escuro */
 [data-bs-theme="dark"] {
-  --bg-color: #31231a;
-  --sidebar-bg: #940e01;
+  --bg-color: #1d1b26;
+  --sidebar-bg: #31231a;
   --sidebar-text-color: #ffffff;
-  --accent-color: #1a754f;
+  --accent-color: #1a754f; /*botões*/
   --btn-text-color: #ffffff;
   --hover-bg: #0e432f;
   --text-color: #ffffff;
-  --plot-title-color: #1a754f;
+  --plot-title-color: #1a754f; /*títulos gráficos*/
 }
 
 .sidebar {

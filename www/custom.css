@@ -1,29 +1,19 @@
 /* Modo claro */
 [data-bs-theme="light"] {
   --bg-color: #ffffff;
-  --text-color: #31231a;
-  --sidebar-bg: #940e01;
-  --accent-color: #0e432f;
-  --header-bg: #1a754f;
+  --text-color: #1d1b26;
+  --header-bg: #865f46;
   --header-text: #ffffff;
-  --btn-text-color: #ffffff; 
-  --hover-bg: #0e432f; 
-  --sidebar-text-color: #f0ffff; 
-  --plot-title-color: #0e432f; 
+  --hover-bg: #31231a; 
 }
 
 /* Modo escuro */
 [data-bs-theme="dark"] {
-  --bg-color: #31231a;
+  --bg-color: #1d1b26
   --text-color: #ffffff;
-  --sidebar-bg: #940e01; 
-  --accent-color: #1a754f;
-  --header-bg: #0e432f;
-  --header-text: #ffffff
-  --btn-text-color: #ffffff;
-  --hover-bg: #1a754f; 
-  --sidebar-text-color: #ffffff; 
-  --plot-title-color: #1a754f; 
+  --header-bg: #31231a;
+  --header-text: #ffffff;
+  --hover-bg: #865f46;
 }
 
 @font-face {
@@ -57,15 +47,10 @@ h1, h2, h3, .titulo-app {
 
 .navbar { 
   background-color: var(--header-bg); 
-  color: (--header-text);
+  color: var(--header-text);
   padding: 0;
   padding-left: 20px;
   padding-right: 20px;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #ffffff;
-  background-color: var(--hover-bg);
 }
 
 /*Titulo*/

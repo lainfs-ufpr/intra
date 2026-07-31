@@ -25,7 +25,8 @@ plotAdapterContamination <- function(caminho_fastq, paleta_cores="viridis") {
   
   # Função auxiliar para construir dataframe a partir de um caminho para fastq
   constroi_df <- function(caminho_fastq){
-    fq <- readFastq(caminho_fastq)
+    stream <- FastqStreamer(caminho_fastq)
+    fq <- yield(stream)
     reads <- sread(fq)
     
     # Para cada adaptador, um vetor com 0 ou 1 por read

@@ -29,7 +29,7 @@ plotNucleotideCount <- function(caminho_fastq, paleta_cores="viridis", nomes_arq
   if (is.character(caminho_fastq) && length(caminho_fastq) == 1) {
     
     # Ler arquivo
-    fq <- ShortRead::readFastq(caminho_fastq)
+    fq <- ShortRead::FastqStreamer(caminho_fastq)
     reads <- as.character(ShortRead::sread(fq))
     
     # Realizar contagens
@@ -92,7 +92,8 @@ plotNucleotideCount <- function(caminho_fastq, paleta_cores="viridis", nomes_arq
   } else {
     # Vetor de arquivos
     lista_dfs <- lapply(caminho_fastq, function(arquivo) {
-      fq <- readFastq(arquivo)
+      stream <- FastqStreamer(arquivo)
+      fq <- yield(stream)
       reads <- as.character(sread(fq))
       
       contagens <- lapply(reads, function(seq) {

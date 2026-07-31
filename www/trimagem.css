@@ -1,16 +1,16 @@
 /* Modo claro */
 [data-bs-theme="light"] {
-  --sidebar-bg: #940e01;
-  --btn: #0e432f;
-  --btn-hover: #1a754f;
+  --sidebar-bg: #865f46;
+  --btn: #1a754f;
+  --btn-hover:  #0e432f;
   --sidebar-text-color: #ffffff; 
 }
 
 /* Modo escuro */
 [data-bs-theme="dark"] {
-  --sidebar-bg: #940e01; 
-  --btn: #1a754f;
-  --btn-hover: #0e432f;
+  --sidebar-bg: #31231a; 
+  --btn: #0e432f;
+  --btn-hover: #1a754f;
   --sidebar-text-color: #ffffff; 
 }
 

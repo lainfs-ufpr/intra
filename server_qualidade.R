@@ -5,7 +5,7 @@ library(shinyWidgets)
 options(shiny.maxRequestSize = 100 * 1024^3)
 
 qualidadeServer <- function(id, r_dir_path, r_resultado_qa) {
-
+  
   moduleServer(id, function(input, output, session) {
     
     paleta_cores <- reactive({
@@ -64,39 +64,39 @@ qualidadeServer <- function(id, r_dir_path, r_resultado_qa) {
       
       shinyjs::delay(100, {
         fls <- get_files_for_analysis()
-      
+        
         if (is.null(fls) || length(fls) == 0) {
           showNotification("Nenhum arquivo FASTQ encontrado!", type = "error")
           shinyjs::show(session$ns("run_analysis"))
           shinyjs::hide(session$ns("loading_animation"))
           return()
         }
-      
+        
         tryCatch({
           tempo_inicio <- Sys.time()
-        
+          
           resultado <- qa(fls, type = "fastq")
           r_resultado_qa(resultado) 
-        
+          
           shinyjs::show("wrapper_download_ciclo")
           shinyjs::show("wrapper_download_media")
           shinyjs::show("wrapper_download_contagens")
           shinyjs::show("wrapper_download_ocorrencias")
           shinyjs::show("wrapper_download_adapters")
-        
+          
           tempo_execucao <- Sys.time() - tempo_inicio
           shinyjs::html(session$ns("qa_output"),
                         paste0('<b style="color: #31231a">Controle de Qualidade finalizado! Tempo de execução:</b> ',
-                              round(tempo_execucao, 2), 
-                              ' segundos'))
-        
+                               round(tempo_execucao, 2), 
+                               ' segundos'))
+          
           shinyjs::hide("loading_animation")
           shinyjs::show("run_analysis")
-        
+          
         }, error = function(e) {
           shinyjs::html(session$ns("qa_output"),
                         paste0('<b style="color: #940e01">Erro: ', e$message, '</b>'))
-        
+          
           shinyjs::hide("loading_animation")
           shinyjs::show("run_analysis")
         })

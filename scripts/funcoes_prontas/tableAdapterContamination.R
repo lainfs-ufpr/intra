@@ -21,7 +21,8 @@ tableAdapterContamination <- function(caminho_fastq){
   
   constroi_df <- function(caminho_fastq){
     # Ler sequências do fastq
-    fq <- readFastq(caminho_fastq)
+    stream <- FastqStreamer(caminho_fastq)
+    fq <- yield(stream)
     reads <- sread(fq)
     
     # Para cada adaptador, um vetor com 0 ou 1 por read

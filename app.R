@@ -1,4 +1,4 @@
-# library(shiny)
+library(shiny)
 library(ShortRead)
 library(ggplot2)
 library(fs)

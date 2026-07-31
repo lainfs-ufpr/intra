@@ -13,7 +13,6 @@ ui <- fluidPage(
   
   theme = bs_theme(version = 5,
                    bootswatch = "flatly", 
-                   primary = "#1a754f", 
                    base_font = font_google("Lexend Deca")),
 
   useShinyjs(),
@@ -27,9 +26,12 @@ ui <- fluidPage(
   
   page_navbar(
     # HEADER
-    title = tags$span(tags$img(src = "logo-principal.png", id = "logo-fixo"), 
-                      "Controle de Qualidade de Sequências FASTQ", 
-                      class = "titulo-app"),
+    
+    title = tags$span(tags$img(src = "logo-principal.png", id = "logo-fixo"),
+                      "INTRA",
+                      class = "titulo-app",
+                      style = "margin-right: 60px;"
+    ),
     
     # QUALIDADE 
     nav_panel("Qualidade",
