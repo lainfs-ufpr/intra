@@ -1,6 +1,6 @@
 .modal-container {
     text-align: center;
-    background-color: #1a754f; 
+    background-color: #fea29a; 
     padding: 20px 10px;
     border-radius: 5px; 
 }
@@ -11,7 +11,7 @@
 
 .modal-titulo {
     font-family: 'Phenomena', sans-serif;
-    color: #0e432f;
+    color: #940e01;
     font-size: 28px;
     margin-top: 0;
 }
@@ -59,13 +59,13 @@
 
 /* fundo do botão de iniciar */
 .modal-footer {
-  background-color: #1a754f;
+  background-color: #fea29a;
   border-top: none;
 }
 
 /* fundo do container */
 .modal-body {
-  background-color: #1a754f;
+  background-color: #fea29a;
   border-top: 15px;
   border-bottom: none;
 }
