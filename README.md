@@ -3,7 +3,7 @@
 
 ## Sobre a Ferramenta
 Esta ferramenta é um aplicativo Shiny de código aberto desenvolvido para integrar as etapas iniciais do processamento de dados de RNA-seq em uma interface gráfica intuitiva, pensada para fornecer uma solução integrada e acessível para o controle de qualidade (QC) e pré-processamento de dados de sequenciamento. \
-A INTRA permite realizar análise da qualidade de dados de sequenciamento no formato FASTQ, assim como também disponibiliza uma seção dedicada à trimagem, permitindo o pré-processamento dos dados por meio da remoção de bases de baixa qualidade e adaptadores. \
+A INTRA permite realizar análise da qualidade de dados de sequenciamento no formato FASTQ, assim como também disponibiliza uma seção dedicada à trimagem, permitindo o pré-processamento dos dados por meio da remoção de bases de baixa qualidade e adaptadores.
 
 --- 
 
