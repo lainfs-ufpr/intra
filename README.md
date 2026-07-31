@@ -1,4 +1,4 @@
-# LAINFS - Controle de Qualidade e Trimagem
+# LAINFS - INTerface for RNA-seq Analysis
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=orange&style=for-the-badge)
 
 ## Sobre a Ferramenta
