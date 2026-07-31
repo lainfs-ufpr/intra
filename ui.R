@@ -23,10 +23,9 @@ ui <- fluidPage(
   tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "qualidade.css")),
   tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "trimagem.css")),
   
-  
+  # Página de Navegação
   page_navbar(
     # HEADER
-    
     title = tags$span(tags$img(src = "logo-principal.png", id = "logo-fixo"),
                       "INTRA",
                       class = "titulo-app",
@@ -45,7 +44,8 @@ ui <- fluidPage(
     
     nav_spacer(),
     
-    nav_item(input_dark_mode(id = "mode", value = FALSE)), 
+    # Controlador de modo claro/escuro
+    nav_item(input_dark_mode(id = "mode", mode = "light")), 
     
     id = "page"
   )

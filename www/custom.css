@@ -4,7 +4,7 @@
   --text-color: #1d1b26;
   --header-bg: #865f46;
   --header-text: #ffffff;
-  --hover-bg: #31231a; 
+  --hover-nav-bg: #31231a; 
 }
 
 /* Modo escuro */
@@ -13,7 +13,7 @@
   --text-color: #ffffff;
   --header-bg: #31231a;
   --header-text: #ffffff;
-  --hover-bg: #865f46;
+  --hover-nav-bg: #865f46;
 }
 
 @font-face {
@@ -51,6 +51,18 @@ h1, h2, h3, .titulo-app {
   padding: 0;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--hover-nav-bg);
+}
+
+.navbar-nav .nav-link{
+  color: var(--header-text);
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--hover-nav-bg);
 }
 
 /*Titulo*/
