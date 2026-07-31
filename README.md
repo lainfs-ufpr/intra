@@ -9,8 +9,7 @@ Possui como objetivo fornecer uma solução integrada e acessível para o contro
 
 ## Como utilizar a Ferramenta
 
-### Faça o download dos arquivos desse repositório
-![Download](data/images/download.png)
+### 1️⃣: Faça o download dos arquivos desse repositório
 
 ### 2️⃣: Dependências
 Rode o script "dependencies.R" para instalar todos os pacotes necessários, caso você utilize o Sistema Operacional Linux/Ubuntu pode ser que seja necessário instalar algumas bibliotecas extras, para mais informações veja [Sistema Operacional Linux-Ubuntu](#sistema-operacional-linux-ubuntu)
