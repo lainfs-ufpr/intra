@@ -2,18 +2,18 @@
 [data-bs-theme="light"] {
   --bg-color: #ffffff;
   --text-color: #1d1b26;
-  --header-bg: #865f46;
+  --header-bg: #1a754f;
   --header-text: #ffffff;
-  --hover-nav-bg: #31231a; 
+  --hover-nav-bg: #0e432f; 
 }
 
 /* Modo escuro */
 [data-bs-theme="dark"] {
   --bg-color: #1d1b26
   --text-color: #ffffff;
-  --header-bg: #31231a;
+  --header-bg: #0e432f;
   --header-text: #ffffff;
-  --hover-nav-bg: #865f46;
+  --hover-nav-bg: #1a754f;
 }
 
 @font-face {
@@ -54,7 +54,7 @@ h1, h2, h3, .titulo-app {
 }
 
 .navbar-nav .nav-link.active {
-    color: var(--hover-nav-bg);
+    color: var(--header-text);
 }
 
 .navbar-nav .nav-link{
@@ -62,7 +62,7 @@ h1, h2, h3, .titulo-app {
 }
 
 .navbar-nav .nav-link:hover {
-  color: var(--hover-nav-bg);
+  color: var(--header-text);
 }
 
 /*Titulo*/

@@ -1,15 +1,15 @@
 /* Modo claro */
 [data-bs-theme="light"] {
-  --sidebar-bg: #865f46;
-  --btn: #1a754f;
+  --sidebar-bg: #1a754f;
+  --btn: #ffffff;
   --btn-hover:  #0e432f;
   --sidebar-text-color: #ffffff; 
 }
 
 /* Modo escuro */
 [data-bs-theme="dark"] {
-  --sidebar-bg: #31231a; 
-  --btn: #0e432f;
+  --sidebar-bg: #0e432f; 
+  --btn: #ffffff;
   --btn-hover: #1a754f;
   --sidebar-text-color: #ffffff; 
 }
@@ -36,14 +36,14 @@
 .btn-trim-download {
   background-color: var(--btn);
   border: none;
-  color: var(--sidebar-text-color);
+  color: var(--sidebar-bg);
   border-radius: 6px;
 }
 
 .btn-trim-download:hover {
   background-color: var(--btn-hover);
   border: none;
-  color: var(--sidebar-text-color);
+  color: var(--btn);
   border-radius: 6px;
 }
 
