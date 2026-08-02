@@ -26,7 +26,7 @@ ui <- fluidPage(
   # Página de Navegação
   page_navbar(
     # HEADER
-    title = tags$span(tags$img(src = "logo-principal.png", id = "logo-fixo"),
+    title = tags$span(tags$img(src = "logo-principal-sf.png", id = "logo-fixo"),
                       "INTRA",
                       class = "titulo-app",
                       style = "margin-right: 60px;"
