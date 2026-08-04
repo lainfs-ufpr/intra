@@ -67,7 +67,12 @@ qualidadeUI <- function(id) {
               ),
               br(),
               hr(),
-              div(id = ns("qa_output")),
+              
+              div(
+                id = ns("qa_output"),
+                style = "margin-top:10px"
+              ),
+              
               div(style = "margin-left: 20px;", textOutput(ns("caminhoPasta")))
     )
   )

@@ -73,9 +73,15 @@ qualidadeServer <- function(id, r_dir_path, r_resultado_qa) {
         }
         
         tryCatch({
-          tempo_inicio <- Sys.time()
+          qa_metricas <- measure_execution("Controle de Qualidade", {
+            
+            resultado <- suppressWarnings(qa(fls, type = "fastq"))
+            
+          })
           
-          resultado <- qa(fls, type = "fastq")
+          print_metrics(qa_metricas)
+          
+          resultado <- qa_metricas$resultado
           r_resultado_qa(resultado) 
           
           shinyjs::show("wrapper_download_ciclo")
@@ -84,11 +90,14 @@ qualidadeServer <- function(id, r_dir_path, r_resultado_qa) {
           shinyjs::show("wrapper_download_ocorrencias")
           shinyjs::show("wrapper_download_adapters")
           
-          tempo_execucao <- Sys.time() - tempo_inicio
-          shinyjs::html(session$ns("qa_output"),
-                        paste0('<b style="color: #31231a">Controle de Qualidade finalizado! Tempo de execução:</b> ',
-                               round(tempo_execucao, 2), 
-                               ' segundos'))
+          shinyjs::html(
+            "qa_output",
+            paste0(
+              '<b style="color: #31231a">Controle de Qualidade finalizado!</b><br>',
+              'Tempo de execução: ', round(qa_metricas$tempo, 2), ' s<br>',
+              'Pico de memória RAM: ', round(qa_metricas$ram, 2), ' MiB'
+            )
+          )
           
           shinyjs::hide("loading_animation")
           shinyjs::show("run_analysis")

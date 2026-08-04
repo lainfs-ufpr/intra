@@ -185,7 +185,14 @@ trimagemUI <- function(id) {
           });
         ")))
       ),
+      
+      div(
+        id = ns("trim_output"),
+        style = "margin-top:10px"
+      ),
+      
       hr(),
+      
       uiOutput(ns("download_log_ui")),
       
       conditionalPanel(

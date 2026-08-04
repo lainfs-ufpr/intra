@@ -8,6 +8,7 @@ library(ggplot2)
 
 # Carregar funções prontas e módulos de servidor
 source("scripts/carrega_funcoes.R")
+source("scripts/metrics.R")
 source("server_qualidade.R")
 source("server_trimagem.R")
 

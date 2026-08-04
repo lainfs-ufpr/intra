@@ -71,46 +71,64 @@ trimagemServer <- function(id) {
       
 # SINGLE END  
       if(mode=="SE"){
-       out_se <- file.path(outdir,"trimmed_SE.fastq.gz")
-       args <- c(
-       "-jar",
-       shQuote(trimmomatic_jar),"SE","-phred33",shQuote(r1_path),
-       shQuote(out_se),illum_clip,leading,trailing,
-       sw,minlen
-      )
-       append_log(log_file,"Executando Trimmomatic (SE)...")
-       res <- tryCatch({
-       out <- system2("java", args=args, stdout=TRUE, stderr=TRUE)
-       append_log(log_file,paste(out,collapse="\n"))
-          
-        if(!file.exists(out_se))
-            stop("Arquivo trimmed_SE não foi criado.")
-          TRUE
-          
-        },error=function(e){
-          append_log(log_file,e$message)
-          showNotification(e$message,type="error")
-          FALSE
+        out_se <- file.path(outdir,"trimmed_SE.fastq.gz")
+        args <- c(
+        "-jar",
+        shQuote(trimmomatic_jar),"SE","-phred33",shQuote(r1_path),
+        shQuote(out_se),illum_clip,leading,trailing,
+        sw,minlen
+        )
+        append_log(log_file,"Executando Trimmomatic (SE)...")
+        
+        trim_metricas <- measure_execution("Trimagem", {
+         resultado <- tryCatch({
+         out <- system2("java", args=args, stdout=TRUE, stderr=TRUE)
+         append_log(log_file,paste(out,collapse="\n"))
+            
+          if(!file.exists(out_se))
+              stop("Arquivo trimmed_SE não foi criado.")
+            TRUE
+            
+          },error=function(e){
+            append_log(log_file,e$message)
+            showNotification(e$message,type="error")
+            FALSE
+          })
+         
+         return(resultado)
         })
         
+        print_metrics(trim_metricas)
+        
+        shinyjs::html(
+          "qa_output",
+          paste0(
+            '<b style="color: #31231a">Trimagem finalizada!</b><br>',
+            'Tempo de execução: ', round(trim_metricas$tempo, 2), ' s<br>',
+            'Pico de memória RAM: ', round(trim_metricas$ram, 2), ' MiB'
+          )
+        )
+        
         if(!res){
-          trimmed_paths(NULL)
-          return()
+        trimmed_paths(NULL)
+        return()
         }
+        
         trimmed_paths(list(single_trimmed=out_se, outdir=outdir))
         
         stats <- tryCatch({
-          raw <- read_sample_fastq(r1_path)
-          trim <- read_sample_fastq(out_se)
-          dados <- calc_stats(raw,trim)
-          dados$tipo <- c("Raw","Trimmed")
-          dados
+        raw <- read_sample_fastq(r1_path)
+        trim <- read_sample_fastq(out_se)
+        dados <- calc_stats(raw,trim)
+        dados$tipo <- c("Raw","Trimmed")
+        dados
         },error=function(e){
-          append_log(log_file,e$message)
-          showNotification(e$message,type="error")
-          NULL
+        append_log(log_file,e$message)
+        showNotification(e$message,type="error")
+        NULL
         })
-      }else{
+        
+      } else{
 # PAIRED END 
         req(r2_path)
         r1_paired <- file.path(outdir,"R1_paired.fastq.gz")
@@ -125,28 +143,37 @@ trimagemServer <- function(id) {
         
         append_log(log_file,"Executando Trimmomatic (PE)...")
         
-        res <- tryCatch({
-          out <- system2("java", args=args, stdout=TRUE, stderr=TRUE)
+        trim_metricas <- measure_execution("Trimagem", {
+          resultado <- tryCatch({
+            out <- system2("java", args=args, stdout=TRUE, stderr=TRUE)
+            
+            append_log(log_file,paste(out,collapse="\n") )
+            
+            if(!file.exists(r1_paired))
+              stop("R1_paired não encontrado.")
+            
+            if(!file.exists(r2_paired))
+              stop("R2_paired não encontrado.")
+            TRUE
+           },error=function(e){
+            append_log(log_file,e$message)
+            showNotification(e$message,type="error")
+            FALSE
+          })
           
-          append_log(log_file,paste(out,collapse="\n") )
+          return(resultado)
           
-          if(!file.exists(r1_paired))
-            stop("R1_paired não encontrado.")
-          
-          if(!file.exists(r2_paired))
-            stop("R2_paired não encontrado.")
-          TRUE
-         },error=function(e){
-          append_log(log_file,e$message)
-          showNotification(e$message,type="error")
-          FALSE
         })
-        if(!res){
+        
+        print_metrics(trim_metricas)
+        
+        if(!resultado){
           trimmed_paths(NULL)
           return()
         }
-        trimmed_paths(list(r1_paired=r1_paired,r2_paired=r2_paired,r1_unpaired=r1_unpaired,r2_unpaired=r2_unpaired,
-          outdir=outdir))
+        trimmed_paths(list(r1_paired = r1_paired, r2_paired = r2_paired,
+                           r1_unpaired = r1_unpaired, r2_unpaired = r2_unpaired,
+          outdir = outdir))
         
         stats <- tryCatch({
           raw1 <- read_sample_fastq(r1_path)
@@ -154,14 +181,14 @@ trimagemServer <- function(id) {
           trim1 <- read_sample_fastq(r1_paired)
           trim2 <- read_sample_fastq(r2_paired)
           tibble( 
-            lado=c("R1 Raw", "R2 Raw","R1 Trimmed","R2 Trimmed"),
-            n_reads=c(length(raw1),length(raw2),length(trim1),length(trim2)),
-            mean_length=c(mean(width(sread(raw1))),mean(width(sread(raw2))),mean(width(sread(trim1))),
-              mean(width(sread(trim2))))
+            lado = c("R1 Raw", "R2 Raw","R1 Trimmed","R2 Trimmed"),
+            n_reads = c(length(raw1), length(raw2), length(trim1), length(trim2)),
+            mean_length = c(mean(width(sread(raw1))), mean(width(sread(raw2))),
+                            mean(width(sread(trim1))), mean(width(sread(trim2))))
             )
           
-        },error=function(e){
-          append_log(log_file,e$message)
+        },error = function(e){
+          append_log(log_file, e$message)
           showNotification(e$message,type="error")
           NULL
         })
