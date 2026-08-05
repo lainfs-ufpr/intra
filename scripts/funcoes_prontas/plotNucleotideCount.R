@@ -29,8 +29,21 @@ plotNucleotideCount <- function(caminho_fastq, paleta_cores="viridis", nomes_arq
   if (is.character(caminho_fastq) && length(caminho_fastq) == 1) {
     
     # Ler arquivo
-    fq <- ShortRead::FastqStreamer(caminho_fastq)
-    reads <- as.character(ShortRead::sread(fq))
+    stream <- ShortRead::FastqStreamer(caminho_fastq)
+    reads <- character()
+    
+    repeat {
+      
+      chunk <- ShortRead::yield(stream)
+      
+      if (length(chunk) == 0)
+        break
+      
+      reads <- c(reads,
+                 as.character(ShortRead::sread(chunk)))
+    }
+    
+    close(stream)
     
     # Realizar contagens
     contagens <- lapply(reads, function(seq) {

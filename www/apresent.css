@@ -1,6 +1,6 @@
 .modal-container {
     text-align: center;
-    background-color: #fea29a; 
+    background-color: #1a754f; 
     padding: 20px 10px;
     border-radius: 5px; 
 }
@@ -11,7 +11,7 @@
 
 .modal-titulo {
     font-family: 'Phenomena', sans-serif;
-    color: #940e01;
+    color: #0e432f;
     font-size: 28px;
     margin-top: 0;
 }
@@ -46,26 +46,26 @@
 }
 
 .modal-footer button {
-  background-color: #940e01;
+  background-color: #0e432f;
   border: none;
   color: #ffffff; 
 }
 
 .modal-footer button:hover {
-  background-color: #121212;
+  background-color: #31231a;
   border: none;
   color: #ffffff; 
 }
 
 /* fundo do botão de iniciar */
 .modal-footer {
-  background-color: #fea29a;
+  background-color: #1a754f;
   border-top: none;
 }
 
 /* fundo do container */
 .modal-body {
-  background-color: #fea29a;
+  background-color: #1a754f;
   border-top: 15px;
   border-bottom: none;
 }

@@ -1,27 +1,43 @@
 /* Modo claro */
 [data-bs-theme="light"] {
   --bg-color: #ffffff;
+  --text-color: #1d1b26;
+  --btn-bg: #ffffff;
+  --btn-text-color: #1a754f;
+  --btn-hover-bg: #0e432f;
+  --btn-hover-txt: #ffffff;
   --sidebar-bg: #1a754f;
   --sidebar-text-color: #ffffff; 
-  --accent-color: #ffffff;
-  --btn-text-color: #1a754f;
-  --hover-bg: #0e432f;
-  --btn-hover-txt: #ffffff;
-  --text-color: #1d1b26;
+  --loading-fora: #ffffff;
+  --loading-dentro: #0e432f;
+  --slt-bg: #ffffff;
+  --slt-text: #1d1b26;
+  --slt-hover-bg: #1a754f;
+  --slt-hover-text: #ffffff;
   --plot-title-color: #0e432f; 
+  --pink: #FF69B4;
 }
 
 /* Modo escuro */
 [data-bs-theme="dark"] {
   --bg-color: #1d1b26;
+  --text-color: #ffffff;
+  --btn-bg: #ffffff;
+  --btn-text-color: #0e432f;
+  --btn-hover-bg: #1a754f;
+  --btn-hover-txt: #ffffff;
   --sidebar-bg: #0e432f;
   --sidebar-text-color: #ffffff;
-  --accent-color: #ffffff; /*botões*/
   --btn-text-color: #0e432f;
-  --hover-bg: #1a754f;
   --btn-hover-txt: #ffffff;
-  --text-color: #ffffff;
-  --plot-title-color: #1a754f; /*títulos gráficos*/
+  --loading-fora: #ffffff;
+  --loading-dentro: #1a754f;
+  --slt-bg: #1d1b26;
+  --slt-text: #ffffff;
+  --slt-hover-bg: #0e432f;
+  --slt-hover-text: #ffffff;
+  --plot-title-color: #1a754f;
+  --pink: #FF69B4;
 }
 
 .sidebar {
@@ -60,7 +76,7 @@
 
 /*Botão de seleção de pasta*/
 .botao-diretorio{
-  background-color: var(--accent-color);
+  background-color: var(--btn-bg);
   color: var(--btn-text-color);
   border-radius: 15px;
   border: none;
@@ -68,13 +84,13 @@
 }
 
 .botao-diretorio:hover{
-  background-color: var(--hover-bg);
+  background-color: var(--btn-hover-bg);
   color: var(--btn-hover-txt);
 }
 
 /*botão de input de arquivo*/
 .botao-arquivo .btn-file {
-  background: var(--accent-color);
+  background: var(--btn-bg);
   color: var(--btn-text-color);
   border-radius: 10px;
   border: none;
@@ -82,7 +98,7 @@
 }
 
 .botao-arquivo .btn-file:hover {
-  background-color: var(--hover-bg);
+  background-color: var(--btn-hover-bg);
   color: var(--btn-hover-txt);
 }
 
@@ -111,14 +127,14 @@
 }
 
 .shiny-file-input-progress .progress-bar {
-  background-color: var(--hover-bg); 
+  background-color: var(--btn-hover-bg); 
   border-radius: 5px;
   transition: width 0.5s ease;
 }
 
 /*Botão para rodar o controle de qualidade e trimagem*/
 .btnQA-custom {
-  background-color: var(--accent-color);
+  background-color: var(--btn-bg);
   color: var(--btn-text-color);
   text-align: center;
   border-radius: 15px;
@@ -130,14 +146,14 @@
 }
 
 .btnQA-custom:hover {
-  background-color: var(--hover-bg);
+  background-color: var(--btn-hover-bg);
   color: var(--btn-hover-txt);
 }
 
 /* Animação de 'carregando' ao rodar o QC */
 .loading_animation {
-  border: 5px solid var(--text-color);
-  border-top: 5px solid var(--accent-color); 
+  border: 5px solid var(--loading-fora);
+  border-top: 5px solid var(--loading-dentro); 
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -154,85 +170,78 @@
 
 /* Seleção de paleta de cores */
 .botao-cor {
-  background-color: transparent;
-  color: var(--sidebar-text-color) 
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text-color);
 }
 
 .botao-cor .selectize-input {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--slt-bg);
+  color: var(--slt-text);
   border: none;
 }
 
 .botao-cor .selectize-dropdown .option {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--slt-bg);
+  color: var(--slt-text);
   border: none;
 }
 
 .botao-cor .selectize-dropdown .option:hover {
-  background-color: var(--accent-color);
-  color: var(--sidebar-text-color);
+  background-color: var(--slt-hover-bg);
+  color: var(--slt-hover-text);
 }
 
 .botao-cor:hover {
-  background-color: var(--sidebar-bg);
+  background-color: var(--slt-hover-bg);
 }
 
-/* Seleção do arquivo para download */
+/* Seleção do tipo de arquivo para download */
 .btn-download-plot {
-    background-color: transparent;
-    color: var(--sidebar-text-color);
-    border: none;
+  background-color: transparent;
+  border: none;
 }
 
 .btn-download-plot:hover {
-    background-color: transparent;
-    color: var(--btn-hover-txt);
+  background-color: transparent;
 }
 
 .btn-download-plot .dropdown-menu {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    padding: 12px 16px;
+  background-color: var(--bg-color);
+  border-radius: 12px;
+  border: 1px solid
+  padding: 12px 16px;
 }
 
 .btn-download-plot .dropdown-menu label {
-    color: var(--text-color);
-    margin-bottom: 6px;
-}
-
-.btn-download-plot .dropdown-menu .form-control {
-    background-color: var(--input-bg, var(--sidebar-bg));
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
+  color: var(--text-color);
+  margin-bottom: 6px;
 }
 
 .btn-download-plot .dropdown-menu .selectize-dropdown .option {
-    background-color: var(--input-bg, var(--bg-color));
-    color: var(--text-color);
+  background-color: var(--slt-bg);
+  color: var(--slt-text);
 }
 
 .btn-download-plot .dropdown-menu .selectize-dropdown .option:hover {
-    background-color: var(--accent-color);
-    color: var(--btn-hover-txt);
+  background-color: var(--slt-hover-bg);
+  color: var(--slt-hover-text);
 }
 
-.btn-download-plot .dropdown-menu .btn-inside-download {
-    background-color: var(--accent-color);
-    color: var(--sidebar-text-color);
-    border: none;
-    border-radius: 8px;
-    margin-top: 10px;
-    padding: 6px 12px;
+
+/* Botão externo de download dos plots */
+.btn-primary {
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text-color);
 }
 
-.btn-download-plot .dropdown-menu .btn-inside-download:hover {
-    background-color: var(--accent-hover);
-    color: var(--btn-hover-txt);
+.btn-primary:hover {
+  background-color: var(--btn-hover-bg);
+  color: (--btn-hover-txt);
+}
+
+.btn-primary:focus {
+  background-color: var(--btn-hover-bg);
+  color: (--btn-hover-txt);
 }
 
 /* Links */
