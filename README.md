@@ -59,7 +59,7 @@ O Trimmomatic é um software de terceiros, distribuído sob a licença própria 
 No RStudio, abra o arquivo `app.R` e clique em **Run App**. Aguarde a interface carregar.
  
 ![Rodar](data/images/RunApp.png)
-![Interface](data/images/apresenta.png)
+![Interface](data/images/inicio.png)
  
 ### 5. Fluxo básico
  
