@@ -36,7 +36,7 @@ A interface está em português. Os gráficos são personalizáveis e podem ser 
 git clone https://github.com/lainfs-ufpr/intra.git
 ```
  
-Ou use o botão **Code → Download ZIP** e extraia a pasta. Para uma versão estável, use a release `[PREENCHER, ex.: v0.1.0]`.
+Ou use o botão **Code → Download ZIP** e extraia a pasta.
  
 ### 2. Instale as dependências
  
