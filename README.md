@@ -114,6 +114,7 @@ Depois, reinicie o RStudio e rode `source("dependencies.R")` novamente.
 ## Atualizações futuras
  
 - Nova etapa de análise de qualidade após a trimagem.
+- Adição de feature "separação em projetos"
 ---
  
 ## Licença
